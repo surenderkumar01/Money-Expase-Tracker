@@ -1,9 +1,9 @@
 package com.example.moneyexpanse.core.prasentation.screen.authScreen
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -26,12 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.moneyexpanse.R
 import com.example.moneyexpanse.core.common.Route
 import com.example.moneyexpanse.core.common.authState
@@ -63,38 +61,12 @@ fun LoginScreen(
         }
     }
 
-    // Auth State Handling
-    when (state) {
-        is authState.Error -> {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-        }
-
-        is authState.Success -> {
-            Log.d("TAG", "Login")
-            navController.navigate(Route.DashboardScreen) {
-                popUpTo(Route.LoginScreen) { inclusive = true }
-            }
-        }
-
-        is authState.Loading -> {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator(color = Color.White)
-            }
-        }
-
-        is authState.Idle -> {}
-    }
-
-    // UI STARTS HERE
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(darkBackground)
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,7 +80,7 @@ fun LoginScreen(
             Image(
                 painter = painterResource(R.drawable.lo),
                 contentDescription = null,
-                modifier = Modifier.size(120.dp)
+                modifier = Modifier.size(100.dp)
             )
 
             Spacer(Modifier.height(24.dp))
@@ -116,7 +88,7 @@ fun LoginScreen(
             Text(
                 "Manage Your Wealth",
                 color = Color.White,
-                fontSize = 32.sp,
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
 
@@ -134,7 +106,7 @@ fun LoginScreen(
                 color = Color.White,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center
             )
 
             Spacer(Modifier.height(18.dp))
@@ -154,11 +126,13 @@ fun LoginScreen(
                  },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 6.dp),
+                 .height(52.dp),
                 leadingIcon = {
                     Icon(Icons.Default.Email, contentDescription = null, tint = textDark)
                 },
-                label = { Text("example@gmail.com", color = textDark, fontSize = 16.sp) },
+
+                placeholder = { Text("example@gmail.com", fontSize = 15.sp, color = textDark) },
+
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = darkCard,
                     unfocusedContainerColor = darkCard,
@@ -189,12 +163,13 @@ fun LoginScreen(
                 value = password,
                 onValueChange = { password = it },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 6.dp),
+                    .fillMaxWidth().height(52.dp)
+                    ,
                 leadingIcon = {
                     Icon(Icons.Default.Lock, contentDescription = null, tint = textDark)
                 },
-                label = { Text("Enter your password", color = textDark, fontSize = 16.sp) },
+                placeholder = { Text("Enter your password", fontSize = 15.sp, color = textDark)},
+//                label = { Text("Enter your password", color = textDark) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = darkCard,
                     unfocusedContainerColor = darkCard,
@@ -215,14 +190,6 @@ fun LoginScreen(
 
             Spacer(Modifier.height(10.dp))
 
-            Text(
-                "Forgot Password?",
-                color = bluecard,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.End
-            )
 
             Spacer(Modifier.height(32.dp))
 
@@ -234,8 +201,7 @@ fun LoginScreen(
                     else viewModel.login(email, password)
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(55.dp),
+                    .fillMaxWidth().height(45.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = bluecard)
             ) {
@@ -258,37 +224,44 @@ fun LoginScreen(
 
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
-                OutlinedButton(
-                    onClick = {},
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(55.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = darkCard)
-                ) {
-                    Text("Google", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                }
 
-                Spacer(Modifier.width(18.dp))
+                Text(
+                    "Don't have an Account?",
+                    color = Color.White,
+                    fontSize = 15.sp,
+                )
 
-                OutlinedButton(
-                    onClick = { navController.navigate(Route.SignScreen) },
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(55.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = darkCard)
-                ) {
-                    Text("Sign Up", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                }
+
+                Text(" Sign Up", color = Color.Blue, modifier = Modifier.clickable{
+                    navController.navigate(Route.SignScreen)
+                }, fontSize = 18.sp)
+
+
             }
         }
+        when (state) {
+            is authState.Error -> {
+                Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            }
+
+            is authState.Success -> {
+
+                navController.navigate(Route.DashboardScreen) {
+                    popUpTo(Route.LoginScreen) { inclusive = true }
+                }
+            }
+
+            is authState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize().padding(bottom = 43.dp), contentAlignment = Alignment.BottomCenter) {
+                    CircularProgressIndicator(color = Color.White)
+                }
+
+                return
+            }
+
+            is authState.Idle -> {}
+        }
     }
-}
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun log() {
-    LoginScreen(rememberNavController(), hiltViewModel())
 }

@@ -1,7 +1,5 @@
 package com.example.moneyexpanse.core.prasentation.screen.daskboardScreen
 
-import android.widget.Button
-import android.widget.Toast
 import com.example.moneyexpanse.R
 
 import androidx.compose.runtime.Composable
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.LaunchedEffect
@@ -22,18 +19,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.moneyexpanse.core.common.BottomNavItem
 import com.example.moneyexpanse.core.common.Route
@@ -44,6 +39,9 @@ import com.example.moneyexpanse.ui.theme.darkCard
 @Composable
 fun ProfileScreen(navController: NavController, viewModel: UserViewModel = hiltViewModel()) {
 
+
+    val uriHandler = LocalUriHandler.current
+    val uriHandlerAboutUs = LocalUriHandler.current
     LaunchedEffect(Unit) {
         viewModel.getUser()
     }
@@ -59,7 +57,7 @@ fun ProfileScreen(navController: NavController, viewModel: UserViewModel = hiltV
                 title = {
                     Text(
 
-                     text=   "Profile",
+                        text = "Profile",
                         textAlign = TextAlign.Center,
                         color = Color.White,
                         fontSize = 20.sp,
@@ -121,17 +119,15 @@ fun ProfileScreen(navController: NavController, viewModel: UserViewModel = hiltV
 
 
 
-            SectionTitle("DATA MANAGEMENT")
-            val context = LocalContext.current
-            SettingItem("Clear All Data", textColor = Color.Red, onClick = {
-                Toast.makeText(context, "Under Progress", Toast.LENGTH_SHORT).show()
-            })
 
             SectionTitle("SUPPORT")
-
-            SettingItem("Help Center")
-            SettingItem("About Us")
-            SettingItem("Version", "appVersion", enableArrow = false)
+            SettingItem("Help Center") {
+                uriHandler.openUri("https://drive.google.com/drive/home?dmr=1&ec=wgc-drive-%5Bmodule%5D-goto")
+            }
+            SettingItem("About Us") {
+                uriHandlerAboutUs.openUri("https://drive.google.com/file/d/1IlivNT6aNxSiBygdtPYgFMuXa-PSAm3b/view?usp=sharing")
+            }
+            SettingItem("Version", "Version: 1.0", enableArrow = false)
 
 
             Button(
@@ -273,7 +269,7 @@ fun AlertDailog(viewModel: UserViewModel, navController: NavController, onAlertD
             Button(
                 onClick = onAlertDailog,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF455A64) // grayish blue button
+                    containerColor = Color(0xFF455A64)
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {

@@ -92,7 +92,7 @@ class authRepositoryImp @Inject constructor( val auth: FirebaseAuth,val firestor
     }
 
     suspend fun addUserData(email: String, name: String) {
-        val uid = auth.currentUser?.uid  ?: return // safe check
+        val uid = auth.currentUser?.uid  ?: return
         Log.d("UID_CHECK", uid.toString())
         val data = mapOf(
             "uid" to uid,

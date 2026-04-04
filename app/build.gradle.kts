@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -48,49 +50,99 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+//    implementation(libs.androidx.core.ktx)
+//    implementation(libs.androidx.lifecycle.runtime.ktx)
+//
+//    // Compose
+//    implementation(platform(libs.androidx.compose.bom))
+//    implementation(libs.androidx.compose.material3)
+//    implementation(libs.androidx.compose.foundation)
+//    implementation(libs.androidx.navigation.compose)
+//
+//    // Firebase / Auth
+////    implementation(libs.androidx.credentials)
+////    implementation(libs.androidx.credentials.play.services.auth)
+////    implementation(libs.googleid)
+////    implementation(libs.firebase.auth)
+//
+//    // Firebase BOM (ADD THIS)
+//    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+//
+//    // Firebase services (NO VERSION)
+//    implementation("com.google.firebase:firebase-auth-ktx")
+//    implementation("com.google.firebase:firebase-firestore-ktx")
+//    implementation("com.google.firebase:firebase-database-ktx")
+//    // Coil
+//    implementation("io.coil-kt:coil:2.7.0")
+//
+//    // Hilt
+//    implementation("com.google.dagger:hilt-android:2.51")
+//    implementation(libs.androidx.ui.tooling.preview)
+//    implementation(libs.firebase.firestore)
+//    implementation(libs.firebase.database)
+//    implementation(libs.androidx.ui)
+//    implementation(libs.firebase.firestore.ktx)
+//    debugImplementation(libs.androidx.ui.tooling)
+//    kapt("com.google.dagger:hilt-compiler:2.51")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+//
+//    // Coroutines
+//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+//
+//    // Room (CORRECT)
+//    implementation("androidx.room:room-runtime:2.6.1")
+//    implementation("androidx.room:room-ktx:2.6.1")
+//    kapt("androidx.room:room-compiler:2.6.1")
+//
+//    // ⚠️ Agar error phir aaye, is line ko temporarily comment karo
+//    // implementation(libs.litert.support.api)
+////
+////    testImplementation(libs.junit)
+////    androidTestImplementation(libs.androidx.junit)
+//
+//    implementation("androidx.navigation:navigation-compose:2.7.6")
+//    implementation("com.google.accompanist:accompanist-navigation-animation:0.33.2-alpha")
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.navigation.compose)
+ 
 
-    // Firebase / Auth
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
-    implementation(libs.googleid)
-    implementation(libs.firebase.auth)
+        implementation(libs.androidx.core.ktx)
+        implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Coil
-    implementation("io.coil-kt:coil:2.7.0")
+        // Compose
+        implementation(platform(libs.androidx.compose.bom))
+        implementation(libs.androidx.compose.material3)
+        implementation(libs.androidx.compose.foundation)
+        implementation(libs.androidx.navigation.compose)
 
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.51")
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.database)
-    implementation(libs.androidx.ui)
-    debugImplementation(libs.androidx.ui.tooling)
-    kapt("com.google.dagger:hilt-compiler:2.51")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+        // Firebase BOM
+        implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
 
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+        // Firebase (NO VERSION HERE)
+        implementation("com.google.firebase:firebase-auth-ktx")
+        implementation("com.google.firebase:firebase-firestore-ktx")
+        implementation("com.google.firebase:firebase-database-ktx")
 
-    // Room (CORRECT)
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+        // Coil
+        implementation("io.coil-kt:coil:2.7.0")
 
-    // ⚠️ Agar error phir aaye, is line ko temporarily comment karo
-    // implementation(libs.litert.support.api)
+        // Hilt
+        implementation("com.google.dagger:hilt-android:2.51")
+        kapt("com.google.dagger:hilt-compiler:2.51")
+        implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+        // Room
+        implementation("androidx.room:room-runtime:2.6.1")
+        implementation("androidx.room:room-ktx:2.6.1")
+        kapt("androidx.room:room-compiler:2.6.1")
 
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.33.2-alpha")
+        // Coroutines
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+        implementation(libs.androidx.ui.tooling.preview)
+        implementation(libs.androidx.ui)
+        debugImplementation(libs.androidx.ui.tooling)
+
+        implementation("androidx.navigation:navigation-compose:2.7.6")
+        implementation("com.google.accompanist:accompanist-navigation-animation:0.33.2-alpha")
 
 }

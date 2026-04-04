@@ -30,7 +30,6 @@ class addincomeViewModel @Inject constructor(val addIncomeRepoImp: addIncomeRepo
     fun fatch() {
         viewModelScope.launch {
             val data=addIncomeRepoImp.fatchIncome()
-            Log.d("TAGDATA--",data)
            _addIncomeState.value= data
 
         }

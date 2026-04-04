@@ -49,7 +49,7 @@ class ExpanceRepositoryImp @Inject constructor(
         val data = snap.documents.mapNotNull {
             it.toObject(dataModel::class.java)
         }
-//        Log.d("TAGE", data.get(0).date.toString())
+        Log.d("TAGE_DATA", if (data.isEmpty()) "empty" else data.get(0).date.toString())
         return data
 
     }

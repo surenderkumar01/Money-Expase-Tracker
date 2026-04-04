@@ -1,5 +1,6 @@
 package com.example.moneyexpanse.core.prasentation.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -21,8 +22,8 @@ class ExpanseVieewModel @Inject constructor(val expenseRepository: ExpanceReposi
 
     private val _TotoalExpanse = mutableStateOf("0.0")
     val TotoalExpanse: State<String> = _TotoalExpanse
-    private val _isLoading = mutableStateOf(false)
-    val isLoading: State<Boolean> get() = _isLoading   // <- Yeh expose karna sahi hai
+     val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> get() = _isLoading
 
     init {
         fatchTotalExpanse()
@@ -37,8 +38,12 @@ class ExpanseVieewModel @Inject constructor(val expenseRepository: ExpanceReposi
     fun fatchExpanse() {
         viewModelScope.launch {
             _isLoading.value = true
+
             _addIExpanseState.value = expenseRepository.fatchExpanse()
+            Log.d("TAG_LOADING_FALSE",isLoading.value.toString())
             _isLoading.value = false
+
+
         }
     }
 

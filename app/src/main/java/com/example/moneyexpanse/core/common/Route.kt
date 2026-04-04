@@ -7,4 +7,5 @@ object Route {
 
     const val DashboardScreen="DashboardScreen"
     const val AddIncomeScreen="AddIncomeScreen"
+    const val ForgotPasswordScreen = "forgot_password"
 }

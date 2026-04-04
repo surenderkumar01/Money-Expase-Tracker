@@ -60,6 +60,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -75,17 +76,23 @@ import java.util.Locale
 
 
 @Composable
-fun AddTransactionScreen(navController: NavController, viewModel: ExpanseVieewModel= hiltViewModel()) {
-val context= LocalContext.current
+fun AddTransactionScreen(
+    navController: NavController,
+    viewModel: ExpanseVieewModel = hiltViewModel(),
+    viewModelExpanse: ExpanseVieewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
     var amount by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
-
+var totalExpance = viewModelExpanse.TotoalExpanse
     Column(
         modifier = Modifier
-            .fillMaxSize().statusBarsPadding()
-            .background(Color(0xFF0B1220)).verticalScroll(rememberScrollState())
+            .fillMaxSize()
+            .statusBarsPadding()
+            .background(Color(0xFF0B1220))
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
 
@@ -157,7 +164,7 @@ val context= LocalContext.current
             BasicTextField(
                 value = amount,
                 onValueChange = { amount = it },
-
+                cursorBrush = SolidColor(Color.White),
                 textStyle = TextStyle(
                     fontSize = 48.sp,
                     color = Color.White,
@@ -194,7 +201,6 @@ val context= LocalContext.current
                 DetailItem2(
                     icon = Icons.Default.DateRange,
                     title = "Date",
-
                     ) {
                     date = it
                 }
@@ -226,10 +232,10 @@ val context= LocalContext.current
                         },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Color.White,
-                            unfocusedTextColor =  Color.White
+                            unfocusedTextColor = Color.White
                         )
 
-                        )
+                    )
 
                 }
             }
@@ -238,58 +244,46 @@ val context= LocalContext.current
         Spacer(modifier = Modifier.height(24.dp))
 
 
-        OutlinedButton(
-            onClick = {
-
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(16.dp),
-            border = BorderStroke(1.dp, Color.Gray)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = null,
-                tint = Color.White
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Add Receipt", color = Color.White)
-        }
-
         Spacer(modifier = Modifier.height(35.dp))
 
         // 🔹 SAVE BUTTON
         Button(
             onClick = {
+                if (totalExpance.value.toInt() < 5000) {
+
+                    Toast.makeText(context, "Minimum amount should be greater than 5000 ", Toast.LENGTH_SHORT).show()
+
+                    return@Button
+
+                }
                 if (date.isEmpty()) {
-                    Toast.makeText(context,"Please enter date", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter date", Toast.LENGTH_SHORT).show()
                     return@Button
                 }
                 if (type.isEmpty()) {
-                    Toast.makeText(context,"Please enter type", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter type", Toast.LENGTH_SHORT).show()
                     return@Button
                 }
                 if (amount.isEmpty()) {
-                    Toast.makeText(context,"Please enter amount", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter amount", Toast.LENGTH_SHORT).show()
                     return@Button
                 }
                 if (note.isEmpty()) {
-                    Toast.makeText(context,"Please enter note", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter note", Toast.LENGTH_SHORT).show()
                     return@Button
                 } else {
                     val data = dataModel(amount, date, type, note)
                     viewModel.saveExpanse(data)
-                    Toast.makeText(context,"Expanse Saved", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Expanse Saved", Toast.LENGTH_SHORT).show()
                 }
-                amount =""
+                amount = ""
                 date = ""
                 type = ""
                 note = ""
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(45.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF1E88E5)
@@ -297,7 +291,7 @@ val context= LocalContext.current
         ) {
             Text(
                 text = "Save Transaction",
-                )
+            )
         }
     }
 }

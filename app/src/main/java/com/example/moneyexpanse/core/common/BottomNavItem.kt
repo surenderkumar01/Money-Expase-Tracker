@@ -12,4 +12,5 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
     object Expanse : BottomNavItem("Expanse","Expanse", Icons.Default.Add)
     object Transaction : BottomNavItem("transaction","Transaction", Icons.Default.Info)
     object Profile : BottomNavItem("profile","Profile", Icons.Default.Person)
+    object HelpCenter : BottomNavItem("HelpCenter","HelpCenter", Icons.Default.Person)
 }

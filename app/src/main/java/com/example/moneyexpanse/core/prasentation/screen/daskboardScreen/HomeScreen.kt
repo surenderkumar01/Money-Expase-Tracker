@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
@@ -30,16 +31,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.moneyexpanse.core.common.BottomNavItem
 import com.example.moneyexpanse.core.common.Route
 import com.example.moneyexpanse.core.prasentation.viewModel.ExpanseVieewModel
@@ -56,7 +61,7 @@ fun HomeScreen(
 ) {
 
     val data = viewModel.addIncomeState.value
-//    LaunchedEffect(Unit) {
+    LaunchedEffect(Unit) {
     viewModelExpanse.fatchTotalExpanse()
     viewModel.fatch()
 
@@ -64,12 +69,11 @@ fun HomeScreen(
 
             viewModelExpanse.fatchExpanse()
         }
-//    }
+    }
 
 
     val expanse by viewModelExpanse.addIExpanseState
-    val isLoading by viewModelExpanse.isLoading
-//    val totalExpanse = viewModelExpanse.TotoalExpanse.value
+    val isLoading = viewModelExpanse.isLoading.value
     val totalExpanse by viewModelExpanse.TotoalExpanse
 
 Log.d("TOTAL",totalExpanse)
@@ -92,19 +96,26 @@ Log.d("TOTAL",totalExpanse)
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
-            Row {
-
-                Spacer(modifier = Modifier.width(16.dp))
+            Row(  verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clickable {
+                        Log.d("TAGE", "ADD")
+                        navController.navigate(Route.AddIncomeScreen)
+                    }
+                    .padding(8.dp)) {
                 Icon(
                     imageVector = Icons.Default.AddCircle,
                     contentDescription = "Add",
                     tint = Color(0xFF1E88E5),
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clickable {
-                            Log.d("TAGE", "ADD")
-                            navController.navigate(Route.AddIncomeScreen)
-                        },
+                    modifier = Modifier.size(24.dp)
+                )
+
+                Spacer(modifier = Modifier.width(6.dp))
+
+                Text(
+                    text = "Add Money",
+                    color = Color(0xFF1E88E5),
+                    fontSize = 16.sp
                 )
             }
         }
@@ -159,7 +170,9 @@ Log.d("TOTAL",totalExpanse)
 
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+
+                   CircularProgressIndicator()
+
             }
         }
 
@@ -282,7 +295,7 @@ fun BalanceCardNewDesign(balance: String, totalExpanse: String) {
 
                     Text(
                         text =when {
-                            balance.isNullOrBlank() || balance == "null" -> "₹0.0"
+                            balance.isBlank()  -> "₹0.0"
                             else -> "₹$balance"
                         },
                         color = Color.White,
@@ -290,13 +303,6 @@ fun BalanceCardNewDesign(balance: String, totalExpanse: String) {
                         fontWeight = FontWeight.ExtraBold
                     )
 
-
-//                    Text(
-//                        text = "↑ 8.6% higher than last month",
-//                        color = Color(0xFFB2FF59),
-//                        fontSize = 14.sp,
-//                        fontWeight = FontWeight.SemiBold
-//                    )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -306,7 +312,7 @@ fun BalanceCardNewDesign(balance: String, totalExpanse: String) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            "Income:₹100000 ",
+                            "Income:₹100000 ",   // it will add in future
                             color = Color(0xFFFFFFFF),
                             fontWeight = FontWeight.Bold
                         )
@@ -321,3 +327,6 @@ fun BalanceCardNewDesign(balance: String, totalExpanse: String) {
         }
     }
 }
+
+
+

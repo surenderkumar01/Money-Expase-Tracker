@@ -84,9 +84,5 @@ The app allows users to manage daily expenses, track income, and monitor financi
 
 ## APK Download
 Google Drive Link:
-PASTE_LINK_HERE
+[PASTE_LINK_HERE](https://drive.google.com/file/d/1Z15IIVvI9i7HUbyhTdjOdnfVeqvD3rmb/view?usp=sharing)
 
----
-
-## GitHub Repository
-PASTE_GITHUB_LINK_HERE

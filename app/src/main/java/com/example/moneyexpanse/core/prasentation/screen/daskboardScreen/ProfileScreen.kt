@@ -200,7 +200,7 @@ fun SettingItem(
                 title,
                 color = textColor,
                 fontSize = 16.sp,
-                modifier = Modifier.weight(1f) // ⭐ Yeh line right items ko alag side push karegi
+                modifier = Modifier.weight(1f)
             )
 
             // 🔹 Right Side (Value + Arrow)

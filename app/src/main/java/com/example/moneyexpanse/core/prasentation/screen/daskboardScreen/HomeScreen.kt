@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Card
@@ -61,14 +62,14 @@ fun HomeScreen(
 ) {
 
     val data = viewModel.addIncomeState.value
+
     LaunchedEffect(Unit) {
     viewModelExpanse.fatchTotalExpanse()
     viewModel.fatch()
-
-        if(viewModelExpanse.addIExpanseState.value.isEmpty()) {
+//        if(viewModelExpanse.addIExpanseState.value.isEmpty()) {
 
             viewModelExpanse.fatchExpanse()
-        }
+//        }
     }
 
 
@@ -76,7 +77,7 @@ fun HomeScreen(
     val isLoading = viewModelExpanse.isLoading.value
     val totalExpanse by viewModelExpanse.TotoalExpanse
 
-Log.d("TOTAL",totalExpanse)
+Log.d("TOTAL",expanse.toString())
 //    user name fatching
     LaunchedEffect(Unit) {
         userViewModel.getUser()
@@ -193,13 +194,21 @@ Log.d("TOTAL",totalExpanse)
                 }
             }
            else {
+
             val  list= expanse.reversed()
+
                 items(list) { item ->
+
                     TransactionItem(
+                        id = item.id.toString(),
                         title = item.note.toString(),
                         time = item.date.toString(),
                         amount = item.amount.toString()
-                    )
+                    ){
+                        viewModelExpanse.RemoveExpance(it)
+                        Log.d("TAG_ID",it)
+
+                    }
 
                 }
             }
@@ -208,8 +217,15 @@ Log.d("TOTAL",totalExpanse)
     }
 }
 
+
 @Composable
-fun TransactionItem(title: String, time: String, amount: String) {
+fun TransactionItem(
+    id:String,
+    title: String,
+    time: String,
+    amount: String,
+    onDelete: (String) -> Unit
+) {
 
     Card(
         modifier = Modifier
@@ -220,21 +236,49 @@ fun TransactionItem(title: String, time: String, amount: String) {
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+
             Column {
                 Text(title, color = Color.White, fontWeight = FontWeight.Bold)
                 Text(time, color = Color.Gray, fontSize = 12.sp)
             }
-            Text("-₹$amount", color = Color.Red, fontWeight = FontWeight.Bold)
-        }
-    }
-}
 
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    "-₹$amount",
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "delete",
+                    tint = Color.Red,
+                    modifier = Modifier.clickable {
+
+                        onDelete(id)
+
+                    }
+                )
+            }
+
+        }
+
+    }
+
+}
 //@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun BalanceCardNewDesign(balance: String, totalExpanse: String) {
@@ -294,10 +338,7 @@ fun BalanceCardNewDesign(balance: String, totalExpanse: String) {
 
 
                     Text(
-                        text =when {
-                            balance.isBlank()  -> "₹0.0"
-                            else -> "₹$balance"
-                        },
+                        text = "₹$balance",
                         color = Color.White,
                         fontSize = 38.sp,
                         fontWeight = FontWeight.ExtraBold

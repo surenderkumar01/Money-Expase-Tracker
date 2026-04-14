@@ -83,6 +83,7 @@ fun AddIncomeScreen(navController: NavController,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
+                singleLine = true,
                 cursorBrush = SolidColor(Color.White)
             )
         }

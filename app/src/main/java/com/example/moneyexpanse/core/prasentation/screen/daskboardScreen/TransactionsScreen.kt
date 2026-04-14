@@ -1,6 +1,4 @@
 package com.example.moneyexpanse.core.prasentation.screen.daskboardScreen
-
-
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +24,7 @@ import com.example.moneyexpanse.R
 
 import com.example.moneyexpanse.core.prasentation.viewModel.AllDataViewModel
 
-//@Preview(showBackground = true, showSystemUi = true)
+
 @Composable
 fun TransactionsScreen(
     navController: NavController,

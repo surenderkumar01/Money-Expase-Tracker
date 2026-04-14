@@ -208,9 +208,15 @@ fun SignUpScreen(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = darkCard,
                     unfocusedContainerColor = darkCard,
+
                     focusedIndicatorColor = bluecard,
-//                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
+//                    unfocusedIndicatorColor = Color.Gray,
+
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+
+                    focusedLabelColor = bluecard,
+                    unfocusedLabelColor = textDark
                 ),
                 shape = RoundedCornerShape(16.dp),
                 maxLines = 1,

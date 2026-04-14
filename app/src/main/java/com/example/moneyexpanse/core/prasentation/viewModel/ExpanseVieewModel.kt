@@ -22,6 +22,9 @@ class ExpanseVieewModel @Inject constructor(val expenseRepository: ExpanceReposi
 
     private val _TotoalExpanse = mutableStateOf("0.0")
     val TotoalExpanse: State<String> = _TotoalExpanse
+
+    private val _TotolAmount= mutableStateOf("0.0")
+    val TotolAmount: State<String> = _TotolAmount
      val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> get() = _isLoading
 
@@ -40,16 +43,36 @@ class ExpanseVieewModel @Inject constructor(val expenseRepository: ExpanceReposi
             _isLoading.value = true
 
             _addIExpanseState.value = expenseRepository.fatchExpanse()
+
+            Log.d("TAG_LOADING_FALSE",_addIExpanseState.value.toString())
             Log.d("TAG_LOADING_FALSE",isLoading.value.toString())
             _isLoading.value = false
 
 
         }
     }
-
+init {
+    fatchTotalExpanse()
+}
     fun fatchTotalExpanse() {
         viewModelScope.launch {
             _TotoalExpanse.value = expenseRepository.fatchTotalExpanse()
+        }
+    }
+
+    fun fatchTotalEncome() {
+        viewModelScope.launch {
+
+            _TotolAmount.value = expenseRepository.fatchIncome ()
+            Log.d("TOTAl_AMOUNT_V",expenseRepository.fatchIncome ().toString())
+        }
+    }
+
+    fun RemoveExpance(id:String){
+        viewModelScope.launch {
+            fatchExpanse()
+            expenseRepository.RemoveExpance (id)
+
         }
     }
 }

@@ -54,6 +54,7 @@ import androidx.compose.material3.Text
 
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.runtime.LaunchedEffect
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,12 +74,13 @@ import com.example.moneyexpanse.core.prasentation.viewModel.ExpanseVieewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 
 
 @Composable
 fun AddTransactionScreen(
     navController: NavController,
-    viewModel: ExpanseVieewModel = hiltViewModel(),
+
     viewModelExpanse: ExpanseVieewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -86,7 +88,10 @@ fun AddTransactionScreen(
     var note by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
-var totalExpance = viewModelExpanse.TotoalExpanse
+val TotolAmount = viewModelExpanse.TotolAmount
+    LaunchedEffect(Unit){
+        viewModelExpanse.fatchTotalEncome()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -172,7 +177,7 @@ var totalExpance = viewModelExpanse.TotoalExpanse
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
-                )
+                ) , singleLine = true,
             )
         }
 
@@ -249,13 +254,18 @@ var totalExpance = viewModelExpanse.TotoalExpanse
         // 🔹 SAVE BUTTON
         Button(
             onClick = {
-                if (totalExpance.value.toInt() < 5000) {
+                val total = TotolAmount.value.toIntOrNull() ?: 0
+                Log.d("TOTAl_AMOUNT",total.toString())
 
-                    Toast.makeText(context, "Minimum amount should be greater than 5000 ", Toast.LENGTH_SHORT).show()
 
-                    return@Button
+                    if (total< 1000) {
 
-                }
+                        Toast.makeText(context, "Minimum amount should be greater than 1000 ", Toast.LENGTH_SHORT).show()
+
+                        return@Button
+
+                    }
+
                 if (date.isEmpty()) {
                     Toast.makeText(context, "Please enter date", Toast.LENGTH_SHORT).show()
                     return@Button
@@ -272,8 +282,8 @@ var totalExpance = viewModelExpanse.TotoalExpanse
                     Toast.makeText(context, "Please enter note", Toast.LENGTH_SHORT).show()
                     return@Button
                 } else {
-                    val data = dataModel(amount, date, type, note)
-                    viewModel.saveExpanse(data)
+                    val data = dataModel("",amount, date, type, note)
+                    viewModelExpanse.saveExpanse(data)
                     Toast.makeText(context, "Expanse Saved", Toast.LENGTH_SHORT).show()
                 }
                 amount = ""
